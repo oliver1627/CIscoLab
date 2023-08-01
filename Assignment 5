@@ -1,0 +1,64 @@
+en
+conf t
+hostname: R1
+int g0/0
+ip address  192.168.10.1 255.255.255.0
+no shutdown
+exit
+int g0/1
+ip address 192.168.11.1 255.255.255.0
+no shutdown
+exit
+interface s0/0/0
+ip address 209.165.200.225 255.255.255.252
+clock rate 64000
+no shutdown
+exit
+
+ip route 10.1.1.0 255.255.255.0 209.165.200.226 
+ip route 10.1.2.0 255.255.255.0 209.165.200.226 
+ip route 209.165.200.0 255.255.255.252 209.165.200.227
+
+do wr / copy running-config startup-config
+
+Switch
+en
+conf t
+hostanme: Group Name
+do wr / copy running-config startup-config
+
+PC(Static IP)
+PCO: 192.168.10.10 255.255.255.0 192.168.10.1
+PC1: 192.168.11.10 255.255.255.0 192.168.11.1
+---------------------------------------------------------------------
+en
+conf t
+hostname: R2
+int g0/0
+ip address  10.1.1.1 255.255.255.0
+no shutdown
+exit
+int g0/1
+ip address 10.1.2.1 255.255.255.0
+no shutdown
+exit
+interface s0/0/0
+ip address 209.165.200.226 255.255.255.252
+no shutdown
+exit
+
+ip route 192.168.10.0 255.255.255.0 209.165.200.225 
+ip route 192.168.11.0 255.255.255.0 209.165.200.225 
+ip route 209.165.200.0 255.255.255.252 209.165.200.227 
+
+do wr / copy running-config startup-config
+
+Switch
+en
+conf t
+hostanme: Group Name
+do wr / copy running-config startup-config
+
+PC(Static IP)
+PC2: 10.1.1.10 255.255.255.0 10.1.1.1
+PC3: 10.1.2.10 255.255.255.0 10.1.2.1
